@@ -50,7 +50,17 @@
 </div>
 
 <div class="modal-footer">
-  <button class="button button-primary button-block"
+  <p class="modal-footer-label"
+    ng-show="modal.getButtonStatus() === 'danger'">
+      {{ modal.getFooterMessage() }}
+  </p>
+  <button class="button button-block"
+    ng-class="{ 'label-danger': modal.getButtonStatus() === 'danger',
+                'button-primary': modal.getButtonStatus() === 'primary' }"
     ng-click="modal.closeModal()"
-    ng-disabled="!modal.state.hasDrive()">CONTINUE</button>
+    ng-disabled="!modal.state.hasDrive()">
+      CONTINUE
+      <i class="glyphicon glyphicon-alert"
+        ng-show="modal.getButtonStatus() === 'danger'"></i>
+  </button>
 </div>
