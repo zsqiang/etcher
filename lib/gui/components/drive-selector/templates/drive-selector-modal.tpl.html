@@ -29,7 +29,7 @@
         </div>
         <span class="tick tick--success"
           ng-show="modal.constraints.isDriveValid(drive, modal.state.getImage())"
-          ng-disabled="!modal.state.isCurrentDrive(drive.device)"></span>
+          ng-disabled="!modal.state.isSelectedDrive(drive.device)"></span>
     </li>
     <li class="list-group-item"
       ng-show="!modal.drives.hasAvailableDrives()">
