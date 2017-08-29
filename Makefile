@@ -531,6 +531,8 @@ lint-html:
 
 lint-spell:
 	codespell.py \
+		--dictionary - \
+		--dictionary dictionary.txt \
 		--skip *.gz,*.bz2,*.xz,*.zip,*.img,*.dmg,*.iso,*.rpi-sdcard,.DS_Store \
 		lib tests docs scripts Makefile *.md LICENSE
 
