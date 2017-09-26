@@ -16,6 +16,7 @@
 
 'use strict'
 
+const _ = require('lodash')
 const m = require('mochainon')
 const flashState = require('../../../lib/shared/models/flash-state')
 
@@ -39,7 +40,7 @@ describe('Model: flashState', function () {
 
         m.chai.expect(flashState.getFlashState()).to.deep.equal({
           percentage: 0,
-          speed: 0
+          speed: '0 B'
         })
       })
 
@@ -256,7 +257,7 @@ describe('Model: flashState', function () {
         const currentFlashState = flashState.getFlashState()
         m.chai.expect(currentFlashState).to.deep.equal({
           percentage: 0,
-          speed: 0
+          speed: '0 B'
         })
       })
 
@@ -271,7 +272,9 @@ describe('Model: flashState', function () {
         flashState.setFlashingFlag()
         flashState.setProgressState(state)
         const currentFlashState = flashState.getFlashState()
-        m.chai.expect(currentFlashState).to.deep.equal(state)
+        m.chai.expect(currentFlashState).to.deep.equal(_.assign(state, {
+          speed: `${state.speed} B`
+        }))
       })
     })
 
@@ -366,7 +369,7 @@ describe('Model: flashState', function () {
 
         m.chai.expect(flashState.getFlashState()).to.not.deep.equal({
           percentage: 0,
-          speed: 0
+          speed: '0 B'
         })
 
         flashState.unsetFlashingFlag({
@@ -376,7 +379,7 @@ describe('Model: flashState', function () {
 
         m.chai.expect(flashState.getFlashState()).to.deep.equal({
           percentage: 0,
-          speed: 0
+          speed: '0 B'
         })
       })
 
