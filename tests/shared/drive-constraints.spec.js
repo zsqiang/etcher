@@ -1015,9 +1015,14 @@ describe('Shared: DriveConstraints', function () {
         this.image.size.final.value = this.drive.size + 1
 
         const result = constraints.getDriveImageCompatibilityStatuses(this.drive, this.image)
-        const expectedTuples = [ [ 'ERROR', 'TOO_SMALL' ] ]
+        const expected = [
+          {
+            message: `${constraints.COMPATIBILITY_STATUS_MESSAGES.TOO_SMALL} 1 B`,
+            type: constraints.COMPATIBILITY_STATUS_TYPES.ERROR
+          }
+        ]
 
-        expectStatusTypesAndMessagesToBe(result, expectedTuples)
+        m.chai.expect(result).to.deep.equal(expected)
       })
     })
 
@@ -1122,9 +1127,14 @@ describe('Shared: DriveConstraints', function () {
         this.drive.system = true
 
         const result = constraints.getDriveImageCompatibilityStatuses(this.drive, this.image)
-        const expectedTuples = [ [ 'ERROR', 'TOO_SMALL' ] ]
+        const expected = [
+          {
+            message: `${constraints.COMPATIBILITY_STATUS_MESSAGES.TOO_SMALL} 1 B`,
+            type: constraints.COMPATIBILITY_STATUS_TYPES.ERROR
+          }
+        ]
 
-        expectStatusTypesAndMessagesToBe(result, expectedTuples)
+        m.chai.expect(result).to.deep.equal(expected)
       })
     })
 
