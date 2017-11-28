@@ -15,6 +15,8 @@ endif
 
 BUILD_TEMPORARY_DIRECTORY = $(BUILD_DIRECTORY)/.tmp
 
+ETCHER_SPECTRON_ENTRYPOINT ?= $(BUILD_DIRECTORY_PARENT)/node_modules/.bin/electron
+
 # ---------------------------------------------------------------------
 # Operating system and architecture detection
 # ---------------------------------------------------------------------
@@ -376,6 +378,7 @@ TARGETS = \
 	lint-cpp \
 	lint-html \
 	lint-spell \
+	test-spectron \
 	test-gui \
 	test-sdk \
 	test \
@@ -541,18 +544,23 @@ lint-spell:
 
 lint: lint-js lint-sass lint-cpp lint-html lint-spell
 
-ELECTRON_MOCHA_OPTIONS=--recursive --reporter spec
+MOCHA_OPTIONS=--recursive --reporter spec
+
+test-spectron:
+	$(NPX) env \
+		ETCHER_SPECTRON_ENTRYPOINT=$(ETCHER_SPECTRON_ENTRYPOINT) \
+		mocha $(MOCHA_OPTIONS) tests/spectron
 
 test-gui:
-	$(NPX) electron-mocha $(ELECTRON_MOCHA_OPTIONS) --renderer tests/gui
+	$(NPX) electron-mocha $(MOCHA_OPTIONS) --renderer tests/gui
 
 test-sdk:
-	$(NPX) electron-mocha $(ELECTRON_MOCHA_OPTIONS) \
+	$(NPX) electron-mocha $(MOCHA_OPTIONS) \
 		tests/shared \
 		tests/child-writer \
 		tests/image-stream
 
-test: test-gui test-sdk
+test: test-gui test-sdk test-spectron
 
 help:
 	@echo "Available targets: $(TARGETS)"
