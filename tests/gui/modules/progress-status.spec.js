@@ -3,6 +3,7 @@
 const m = require('mochainon')
 const settings = require('../../../lib/gui/models/settings')
 const progressStatus = require('../../../lib/gui/modules/progress-status')
+const units = require('../../../lib/shared/units')
 
 describe('Browser: progressStatus', function () {
   describe('.fromFlashState()', function () {
@@ -11,7 +12,7 @@ describe('Browser: progressStatus', function () {
         type: 'write',
         percentage: 0,
         eta: 15,
-        speed: 100000000000000
+        speed: units.bytesToClosestUnit(100000000000000) + '/s'
       }
 
       settings.set('unmountOnSuccess', true)
@@ -23,24 +24,24 @@ describe('Browser: progressStatus', function () {
     })
 
     it('should handle percentage == 0, type == write, unmountOnSuccess', function () {
-      this.state.speed = 0
+      this.state.speed = '0 B/s'
       m.chai.expect(progressStatus.fromFlashState(this.state)).to.equal('Starting...')
     })
 
     it('should handle percentage == 0, type == write, !unmountOnSuccess', function () {
-      this.state.speed = 0
+      this.state.speed = '0 B/s'
       settings.set('unmountOnSuccess', false)
       m.chai.expect(progressStatus.fromFlashState(this.state)).to.equal('Starting...')
     })
 
     it('should handle percentage == 0, type == check, unmountOnSuccess', function () {
-      this.state.speed = 0
+      this.state.speed = '0 B/s'
       this.state.type = 'check'
       m.chai.expect(progressStatus.fromFlashState(this.state)).to.equal('Validating...')
     })
 
     it('should handle percentage == 0, type == check, !unmountOnSuccess', function () {
-      this.state.speed = 0
+      this.state.speed = '0 B/s'
       this.state.type = 'check'
       settings.set('unmountOnSuccess', false)
       m.chai.expect(progressStatus.fromFlashState(this.state)).to.equal('Validating...')
